@@ -2832,7 +2832,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
 //    CAmount nExpectedMint = GetBlockValue(pindex->pprev->nHeight);
 //    if (block.IsProofOfWork())
 //        nExpectedMint += nFees;
-//    if(pindex->pprev->nHeight >= 250)
+//    if(pindex->pprev->nHeight >= 300)
 //    {
 //        // can't validate, just accept
 //        nExpectedMint = pindex->nMoneySupply - pindex->pprev->nMoneySupply;
