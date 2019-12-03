@@ -55,7 +55,7 @@ static void convertSeed6(std::vector<CAddress>& vSeedsOut, const SeedSpec6* data
 // + Contains no strange transactions
 static Checkpoints::MapCheckpoints mapCheckpoints =
     boost::assign::map_list_of
-    (0, uint256("0x0000007792121e92d1fc12524355d1cbff0362944e7c2988480c1d0d58902722"));
+    (0, uint256("0x00000382e543af110aec4e8872519d7121a99f6dcd7923d2de73c16d22d40e0d"));
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
     1540617434, // * UNIX timestamp of last checkpoint block
@@ -115,7 +115,7 @@ public:
         pchMessageStart[2] = 0x2c;
         pchMessageStart[3] = 0x6e;
         vAlertPubKey = ParseHex("0457cbd0e4325dbcdf526f4b27d459383b7ddca9bb4bdfa61ada823a3f8522b6f9c7afbc4375f51ed22989de3eced8612dd99f110936fe313938d22b5f838c775a");
-        nDefaultPort = 24072;
+        nDefaultPort = 34072;
         bnProofOfWorkLimit = (~uint256(0) >> 6);
         nSubsidyHalvingInterval = 210000;
         nMaxReorganizationDepth = 100;
@@ -128,7 +128,7 @@ public:
         nMaturity = 100;
         nMasternodeCountDrift = 20;
         nBlockReward = 5 * COIN;
-        nMaxSupply = 400000000 * COIN;
+        nMaxSupply = 21000000 * COIN;
 
         // The mainnet swap amount of 37334000 was determined based on money supply 36757502.29915683 BITWIN24 @ block 416959.
         // 576500 BITWIN24 were added to this amount to represent the expected POW production at a rate of 960 blocks/day
@@ -180,22 +180,18 @@ public:
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
-        genesis.nTime = 1571126400;
+        genesis.nTime = 1575252000;
         genesis.nBits = 0x1e0ffff0;
-        genesis.nNonce = 66505696;
+        genesis.nNonce = 2247363;
 
         hashGenesisBlock = genesis.GetHash();
         string strHexHash = genesis.GetHash().GetHex();
         string strmerkle = genesis.hashMerkleRoot.GetHex();
         string test = genesis.ToString();
-        assert(hashGenesisBlock == uint256("0x0000007792121e92d1fc12524355d1cbff0362944e7c2988480c1d0d58902722"));
+        assert(hashGenesisBlock == uint256("0x00000382e543af110aec4e8872519d7121a99f6dcd7923d2de73c16d22d40e0d"));
         assert(genesis.hashMerkleRoot == uint256("0x59b032829f89c69e4e3f4f378b46aed9f6898d4c4ea1a4786e05e640c2a53b9c"));
 
-//        vSeeds.push_back(CDNSSeedData("BitWin24.io", "satoshi.BitWin24.io"));   // Primary DNS Seeder
-//        vSeeds.push_back(CDNSSeedData("litemint.com", "satoshi.litemint.com"));     // Secondary DNS Seeder
-//        vSeeds.push_back(CDNSSeedData("35.241.249.95", "35.241.249.95"));
-//        vSeeds.push_back(CDNSSeedData("35.227.76.49", "35.227.76.49"));
-        vSeeds.push_back(CDNSSeedData("142.93.170.77", "142.93.170.77"));
+        vSeeds.push_back(CDNSSeedData("134.209.244.29", "134.209.244.29"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 38); // Start with 'G'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 15); // Start with '7'
@@ -352,7 +348,7 @@ public:
 
         hashGenesisBlock = genesis.GetHash();
         string strHexHash = genesis.GetHash().GetHex();
-        nDefaultPort = 24072;
+        nDefaultPort = 34072;
 //        assert(hashGenesisBlock == uint256("0xed556f3925965379bf46d9c15375cab46741dc47dc9113c6bf5b569ea316ca34"));
 
         vFixedSeeds.clear(); //! Testnet mode doesn't have any fixed seeds.
