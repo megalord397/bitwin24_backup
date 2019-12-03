@@ -1799,7 +1799,7 @@ int64_t GetBlockValue(int nHeight, int nMasternodeCount)
         if (nHeight < 230) {
             if ((nMoneySupply + Params().BlockReward()) <= Params().MaxSupply())
                 nSubsidy = Params().BlockReward();
-        } else if (nHeight < 250) {
+        } else if (nHeight < 300) {
             if ((nMoneySupply + Params().BlockReward2()) <= Params().MaxSupply())
                 nSubsidy = Params().BlockReward2();
         } else {
