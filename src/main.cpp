@@ -2842,7 +2842,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     {
         // can't validate, just accept
         nExpectedMint = pindex->nMoneySupply - pindex->pprev->nMoneySupply;
-        if(!IsInitialBlockDownload())
+        if(masternodeSync.IsSynced())
         {
             int masternodeCount = GetMasternodeCountBasedOnBlockReward(pindex->pprev->nHeight, nExpectedMint);
             if(masternodeCount >= 0)
