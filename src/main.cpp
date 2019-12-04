@@ -1835,7 +1835,7 @@ int64_t GetBlockValue(int nHeight, int nMasternodeCount)
  * */
 int GetMasternodeCountBasedOnBlockReward(int nHeight, CAmount reward)
 {
-    if(nHeight < 250)
+    if(nHeight < 300)
         return -1;
 
     int masternodeCount = 0;
