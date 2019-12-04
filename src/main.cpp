@@ -1851,7 +1851,7 @@ int GetMasternodeCountBasedOnBlockReward(int nHeight, CAmount reward)
 
     const int64_t collateral = 3000 * COIN;
 
-    return reward / collateral * Params().BlocksPerYear() / currentPhaseMultiplier * 1000;
+    return round((double) reward * Params().BlocksPerYear() * 1000 / collateral / currentPhaseMultiplier);
 }
 
 int64_t GetMasternodePayment(int64_t blockValue)
@@ -2848,10 +2848,16 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
             if(masternodeCount >= 0)
             {
                 if(masternodeCount > mnodeman.size() + Params().MasternodeTolerance()
-                   || masternodeCount < mnodeman.size() - Params().MasternodeTolerance())
-                    return state.DoS(100, error("ConnectBlock() : unexpected number of masternodes, %d not in %d +/-%d",
-                                                masternodeCount, mnodeman.size(), Params().MasternodeTolerance()),
+                   || masternodeCount < mnodeman.size() - Params().MasternodeTolerance()
+                   || masternodeCount < 0)
+                {
+                    int minLevel = mnodeman.size() - Params().MasternodeTolerance();
+                    if (minLevel < 0) minLevel = 0;
+                    return state.DoS(100,error("ConnectBlock() : unexpected number of masternodes, %d not in range [%d - %d]",
+                                               masternodeCount, minLevel,
+                                               mnodeman.size() + Params().MasternodeTolerance()),
                                      REJECT_INVALID, "bad-cb-amount");
+                }
             }
         }
     }
