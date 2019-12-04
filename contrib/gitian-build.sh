@@ -21,8 +21,7 @@ url=https://github.com/BitWin24/bitwin24
 proc=2
 mem=2000
 lxc=true
-#osslTarUrl=http://downloads.sourceforge.net/project/osslsigncode/osslsigncode/osslsigncode-1.7.1.tar.gz
-osslTarUrl=https://netcologne.dl.sourceforge.net/project/osslsigncode/osslsigncode/osslsigncode-1.7.1.tar.gz
+osslTarUrl=http://downloads.sourceforge.net/project/osslsigncode/osslsigncode/osslsigncode-1.7.1.tar.gz
 osslPatchUrl=https://bitcoincore.org/cfields/osslsigncode-Backports-to-1.7.1.patch
 scriptName=$(basename -- "$0")
 signProg="gpg --detach-sign"
@@ -271,7 +270,7 @@ then
     pushd ./gitian-builder
     mkdir -p inputs
     wget -N -P inputs $osslPatchUrl
-    wget -N -P inputs $osslTarUrl
+#    wget -N -P inputs $osslTarUrl
     make -C ../bitwin24/depends download SOURCES_PATH=`pwd`/cache/common
 
     # Linux
