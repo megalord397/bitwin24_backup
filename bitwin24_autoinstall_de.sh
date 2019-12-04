@@ -1,4 +1,4 @@
-# BitWin24 Masternode Setup Script V1.0 for Ubuntu 16.04 LTS
+# BitWin24 Masternode Setup Script V1.0 
 #by mrx0rhk
 #!/bin/bash
 #
@@ -17,7 +17,7 @@ NC='\033[0m' # No Color
 
 #TCP port
 PORT=24072
-RPC=1315
+RPC=24071
 
 #Clear keyboard input buffer
 function clear_stdin { while read -r -t 0; do read -r; done; }
@@ -43,15 +43,6 @@ function stop_daemon {
         fi
     fi
 }
-#Function detect_ubuntu
-
- if [[ $(lsb_release -d) == *16.04* ]]; then
-   UBUNTU_VERSION=16
-else
-   echo -e "${RED}Sie nutzen Ubuntu 16.04, Installation wird abgebrochen.${NC}"
-   exit 1
-
-fi
 
 #Process command line parameters
 genkey=$1
@@ -104,23 +95,23 @@ if [ -d "/var/lib/fail2ban/" ];
 then
     echo -e "${GREEN}Erforderliche Pakete bereits installiert..${NC}"
 else
-    echo -e "${GREEN}Update System und installiere erforderliche Pakete...${NC}"
+   echo -e "${GREEN}Update System und installiere benötigte Pakete. Dies kann mehere Minuten dauern.${NC}"
 
-sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
-sudo apt-get -y upgrade
-sudo apt-get -y dist-upgrade
-sudo apt-get -y autoremove
-sudo apt-get -y install wget nano htop jq
+sudo DEBIAN_FRONTEND=noninteractive apt-get update -y  
+sudo apt-get -y upgrade 
+sudo apt-get -y dist-upgrade 
+sudo apt-get -y autoremove 
+sudo apt-get -y install wget nano htop jq 
 sudo apt-get -y install libzmq3-dev
-sudo apt-get -y install libevent-dev -y
-sudo apt-get install unzip
-sudo apt install unzip
-sudo apt -y install software-properties-common
-sudo add-apt-repository ppa:bitcoin/bitcoin -y
-sudo apt-get -y update
-sudo apt-get -y install libdb4.8-dev libdb4.8++-dev -y
-sudo apt-get -y install libminiupnpc-dev
-sudo apt-get install -y unzip libzmq3-dev build-essential libssl-dev libboost-all-dev libqrencode-dev libminiupnpc-dev libboost-system1.58.0 libboost1.58-all-dev libdb4.8++ libdb4.8 libdb4.8-dev libdb4.8++-dev libevent-pthreads-2.0-5 -y
+sudo apt-get -y install libevent-dev -y 
+sudo apt-get install unzip 
+sudo apt install unzip 
+sudo apt -y install software-properties-common 
+sudo add-apt-repository ppa:bitcoin/bitcoin -y 
+sudo apt-get -y update 2>/dev/null  >/dev/null
+sudo apt-get -y install libdb4.8-dev libdb4.8++-dev -y 
+sudo apt-get -y install libminiupnpc-dev 
+sudo apt-get install -y unzip libzmq3-dev build-essential libssl-dev libboost-all-dev libqrencode-dev libminiupnpc-dev libdb4.8++ libdb4.8 libdb4.8-dev libdb4.8++-dev -y
    fi
 
 #Network Settings
@@ -183,22 +174,23 @@ else
 fi
  
 #Installing Daemon
+echo -e "${GREEN}Downloade und installiere BitWin24 Deamon...${NC}"
 cd ~
 rm -rf /usr/local/bin/bitwin24*
 wget https://github.com/BitWin24/bitwin24/releases/download/v0.0.4/bitwin24-0.0.4-x86_64-linux-gnu.tar.gz
 tar -xzvf bitwin24-0.0.4-x86_64-linux-gnu.tar.gz
 cd /root/bitwin24-1.0.0/bin/
-sudo chmod -R 755 bitwin24-cli
-sudo chmod -R 755 bitwin24d
-cp -p -r bitwin24d /usr/local/bin
-cp -p -r bitwin24-cli /usr/local/bin
-bitwin24-cli stop
-rm ~/bitwin24-0.0.4-x86_64-linux-gnu.tar.gz*
+sudo chmod -R 755 bitwin24-cli  2>/dev/null  >/dev/null
+sudo chmod -R 755 bitwin24d  2>/dev/null  >/dev/null
+cp -p -r bitwin24d /usr/local/bin  2>/dev/null  >/dev/null
+cp -p -r bitwin24-cli /usr/local/bin  2>/dev/null  >/dev/null
+bitwin24-cli stop  2>/dev/null  >/dev/null
+rm ~/bitwin24-0.0.4-x86_64-linux-gnu.tar.gz*  2>/dev/null  >/dev/null
  
 sleep 5
  #Create datadir
  if [ ! -f ~/.bitwin24/bitwin24.conf ]; then 
- 	sudo mkdir ~/.bitwin24
+ 	sudo mkdir ~/.bitwin24  2>/dev/null  >/dev/null
  fi
 
 cd ~
@@ -215,7 +207,7 @@ EOF
     sudo chmod 755 -R ~/.bitwin24/bitwin24.conf
 
     #Starting daemon first time just to generate a BitWin24 masternode private key
-    bitwin24d -daemon
+    bitwin24d -daemon 2>/dev/null  >/dev/null
 sleep 7
 while true;do
     echo -e "${YELLOW}Generiere Masternode Private Key...${NC}"
@@ -268,7 +260,7 @@ Sie können nun folgende Zeile zur masternode.conf Datei in ihrem Lokalen Wallet
 ======================================================================== \a"
 echo -e "${GREEN}bitwin24_mn1 $publicip:$PORT $genkey TxId TxIdx${NC}"
 echo -e "========================================================================
-Markieren sie die ganze Zeile und kopieren sie (Nicht mit Str-C kopieren) sie in die Datei  
+Markieren sie die ganze Zeile und kopieren sie sie in die Datei  
 ${GREEN}masternode.conf${NC} Datei und ersetzen sie:
     ${GREEN}bitwin24_mn1${NC} - Mit dem gewünschten Masternode Name (Alias)
     ${GREEN}TxId${NC} - Mit der Trankaktions ID vom Befehl -masternode outputs-

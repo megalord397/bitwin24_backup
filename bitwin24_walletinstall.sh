@@ -1,4 +1,4 @@
-# BitWin24 Linux Wallet Setup Script V1.0 for Ubuntu 16.04 LTS
+# BitWin24 Linux Wallet Setup Script V1.0 
 #by mrx0rhk
 #!/bin/bash
 #
@@ -16,7 +16,7 @@ NC='\033[0m' # No Color
 
 #TCP port
 PORT=24072
-RPC=1315
+RPC=24071
 
 #Clear keyboard input buffer
 function clear_stdin { while read -r -t 0; do read -r; done; }
@@ -42,15 +42,6 @@ function stop_daemon {
         fi
     fi
 }
-#Function detect_ubuntu
-
- if [[ $(lsb_release -d) == *16.04* ]]; then
-   UBUNTU_VERSION=16
-else
-   echo -e "${RED}You are not running Ubuntu 16.04, Installation is cancelled.${NC}"
-   exit 1
-
-fi
 
 #Process command line parameters
 genkey=$1
@@ -67,7 +58,7 @@ echo -e "${GREEN} ---------- BitWin24 LINUX WALLET INSTALLER -----------
  |                                                  |
  +--------------------------------------------------+
    ::::::::::::::::::::::::::::::::::::::::::::::::${NC}"
-echo "So you want to install the BitWin24 wallet on linux? [y/n]"
+echo "Do you want to install the BitWin24 wallet on linux? [y/n]"
 read DOSETUP
 
 if [[ $DOSETUP =~ "n" ]] ; then
@@ -96,23 +87,23 @@ if [ -d "/var/lib/fail2ban/" ];
 then
     echo -e "${GREEN}Packages already installed...${NC}"
 else
-    echo -e "${GREEN}Updating system and installing required packages...${NC}"
+    echo -e "${GREEN}Updating system and installing required packages. This can take a few minutes...${NC}"
 
-sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
-sudo apt-get -y upgrade
-sudo apt-get -y dist-upgrade
-sudo apt-get -y autoremove
-sudo apt-get -y install wget nano htop jq
-sudo apt-get -y install libzmq3-dev
-sudo apt-get -y install libevent-dev -y
-sudo apt-get install unzip
-sudo apt install unzip
-sudo apt -y install software-properties-common
-sudo add-apt-repository ppa:bitcoin/bitcoin -y
-sudo apt-get -y update
-sudo apt-get -y install libdb4.8-dev libdb4.8++-dev -y
-sudo apt-get -y install libminiupnpc-dev
-sudo apt-get install -y unzip libzmq3-dev build-essential libssl-dev libboost-all-dev libqrencode-dev libminiupnpc-dev libboost-system1.58.0 libboost1.58-all-dev libdb4.8++ libdb4.8 libdb4.8-dev libdb4.8++-dev libevent-pthreads-2.0-5 -y
+sudo DEBIAN_FRONTEND=noninteractive apt-get update -y 2>/dev/null  >/dev/null 
+sudo apt-get -y upgrade 2>/dev/null  >/dev/null 
+sudo apt-get -y dist-upgrade 2>/dev/null  >/dev/null
+sudo apt-get -y autoremove 2>/dev/null  >/dev/null
+sudo apt-get -y install wget nano htop jq 2>/dev/null  >/dev/null
+sudo apt-get -y install libzmq3-dev 2>/dev/null  >/dev/null
+sudo apt-get -y install libevent-dev -y 2>/dev/null  >/dev/null
+sudo apt-get install unzip 2>/dev/null  >/dev/null
+sudo apt install unzip 2>/dev/null  >/dev/null
+sudo apt -y install software-properties-common 2>/dev/null  >/dev/null
+sudo add-apt-repository ppa:bitcoin/bitcoin -y 2>/dev/null  >/dev/null
+sudo apt-get -y update 2>/dev/null  >/dev/null
+sudo apt-get -y install libdb4.8-dev libdb4.8++-dev -y 2>/dev/null  >/dev/null
+sudo apt-get -y install libminiupnpc-dev 2>/dev/null  >/dev/null
+sudo apt-get install -y unzip libzmq3-dev build-essential libssl-dev libboost-all-dev libqrencode-dev libminiupnpc-dev libboost-system1.58.0 libboost1.58-all-dev libdb4.8++ libdb4.8 libdb4.8-dev libdb4.8++-dev libevent-pthreads-2.0-5 -y 2>/dev/null  >/dev/null 
    fi
 
 #Network Settings
@@ -179,13 +170,13 @@ cd ~
 rm -rf /usr/local/bin/bitwin24*
 wget https://github.com/BitWin24/bitwin24/releases/download/v0.0.4/bitwin24-0.0.4-x86_64-linux-gnu.tar.gz
 tar -xzvf bitwin24-0.0.4-x86_64-linux-gnu.tar.gz
-cd /root/bitwin24-1.0.0/bin/
-sudo chmod -R 755 bitwin24-cli
-sudo chmod -R 755 bitwin24d
-cp -p -r bitwin24d /usr/local/bin
-cp -p -r bitwin24-cli /usr/local/bin
-bitwin24-cli stop
-rm ~/bitwin24-0.0.4-x86_64-linux-gnu.tar.gz*
+cd /root/bitwin24-1.0.0/bin/  2>/dev/null  >/dev/null
+sudo chmod -R 755 bitwin24-cli  2>/dev/null  >/dev/null
+sudo chmod -R 755 bitwin24d  2>/dev/null  >/dev/null
+cp -p -r bitwin24d /usr/local/bin  2>/dev/null  >/dev/null
+cp -p -r bitwin24-cli /usr/local/bin  2>/dev/null  >/dev/null
+bitwin24-cli stop  2>/dev/null  >/dev/null
+rm ~/bitwin24-0.0.4-x86_64-linux-gnu.tar.gz*  2>/dev/null  >/dev/null
  
 sleep 5
  #Create datadir
@@ -197,9 +188,17 @@ cd ~
 clear
 echo -e "${YELLOW}Creating bitwin24.conf...${NC}"
 
-sleep 7
+    cat <<EOF > ~/.bitwin24/bitwin24.conf
+rpcuser=$rpcuser
+rpcpassword=$rpcpassword
+EOF
 
-    
+    sudo chmod 755 -R ~/.bitwin24/bitwin24.conf
+
+    #Starting daemon first time just to generate a BitWin24 masternode private key
+    bitwin24d -daemon 2>/dev/null  >/dev/null
+sleep 7
+ 
     #Stopping daemon to create bitwin24.conf
     bitwin24-cli stop
     sleep 5
