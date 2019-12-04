@@ -81,6 +81,7 @@ bool fCheckBlockIndex = false;
 bool fVerifyingBlocks = false;
 unsigned int nCoinCacheSize = 5000;
 bool fAlerts = DEFAULT_ALERTS;
+const int START_HEIGHT_REWARD_BASED_ON_MN_COUNT = 300;
 
 unsigned int nStakeMinAge = 60 * 60;
 int64_t nReserveBalance = 0;
@@ -1800,7 +1801,7 @@ int64_t GetBlockValue(int nHeight, int nMasternodeCount)
         if (nHeight < 230) {
             if ((nMoneySupply + Params().BlockReward()) <= Params().MaxSupply())
                 nSubsidy = Params().BlockReward();
-        } else if (nHeight < 300) {
+        } else if (nHeight < START_HEIGHT_REWARD_BASED_ON_MN_COUNT) {
             if ((nMoneySupply + Params().BlockReward2()) <= Params().MaxSupply())
                 nSubsidy = Params().BlockReward2();
         } else {
@@ -1835,7 +1836,7 @@ int64_t GetBlockValue(int nHeight, int nMasternodeCount)
  * */
 int GetMasternodeCountBasedOnBlockReward(int nHeight, CAmount reward)
 {
-    if(nHeight < 300)
+    if(nHeight < START_HEIGHT_REWARD_BASED_ON_MN_COUNT)
         return -1;
 
     if(chainActive.Tip()->nHeight > nHeight)
@@ -2837,7 +2838,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     CAmount nExpectedMint = GetBlockValue(pindex->pprev->nHeight);
     if (block.IsProofOfWork())
         nExpectedMint += nFees;
-    if(pindex->pprev->nHeight >= 300)
+    if(pindex->pprev->nHeight >= START_HEIGHT_REWARD_BASED_ON_MN_COUNT)
     {
         // can't validate, just accept
         nExpectedMint = pindex->nMoneySupply - pindex->pprev->nMoneySupply;
