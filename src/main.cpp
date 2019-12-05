@@ -2860,6 +2860,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                 }
             }
         }
+        nExpectedMint += nFees;
     }
 
     //Check that the block does not overmint
