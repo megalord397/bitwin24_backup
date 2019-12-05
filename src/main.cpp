@@ -1816,7 +1816,7 @@ int64_t GetBlockValue(int nHeight, int nMasternodeCount)
 
                 const int64_t collateral = 3000 * COIN;
                 const int64_t newSubsidy = nMasternodeCount * collateral / Params().BlocksPerYear()
-                                           * currentPhaseMultiplier / 1000;
+                                           * currentPhaseMultiplier / 1000 * 80 / 100;
 
                 if ((nMoneySupply + newSubsidy) <= Params().MaxSupply())
                     nSubsidy = newSubsidy;
@@ -1851,7 +1851,7 @@ int GetMasternodeCountBasedOnBlockReward(int nHeight, CAmount reward)
 
     const int64_t collateral = 3000 * COIN;
 
-    return round((double) reward * Params().BlocksPerYear() * 1000 / collateral / currentPhaseMultiplier);
+    return round((double) reward * Params().BlocksPerYear() * 1000 * 100 / 80 / collateral / currentPhaseMultiplier);
 }
 
 int64_t GetMasternodePayment(int64_t blockValue)
