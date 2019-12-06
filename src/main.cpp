@@ -1772,13 +1772,13 @@ int64_t GetPhaseMultiplier(int nHeight)
         nMoneySupply = chainActive[nHeight]->nMoneySupply;
 
     if (nMoneySupply < 14000000 * COIN)
-        currentPhaseMultiplier = 2000;
+        currentPhaseMultiplier = 2050;
     else if (nMoneySupply < 17000000 * COIN)
         currentPhaseMultiplier = 1000;
     else if (nMoneySupply < 18000000 * COIN)
         currentPhaseMultiplier = 500;
     else if (nMoneySupply < 19000000 * COIN)
-        currentPhaseMultiplier = 125;
+        currentPhaseMultiplier = 130;
     else if (nMoneySupply >= 19000000 * COIN)
         currentPhaseMultiplier = 60;
 
